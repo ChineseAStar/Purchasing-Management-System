@@ -1,6 +1,6 @@
 # Purchasing-Management-System
-采用MVC+sqlserver模型开发
-实例可以前往网址http://118.89.44.123:8080/Purchase/login.jsp
+采用MVC+sqlserver模型开发<br>
+实例可以前往网址http://118.89.44.123:8080/Purchase/login.jsp <br>
 1．	实验目的：<br>
 掌握数据库模式设计，依据实际要求设计表结构，建立表的关系；结合一定的开发工具实现数据库应用程序的开发。<br>
 2．	实验环境：<br>
