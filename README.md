@@ -33,18 +33,18 @@
 6．数据库实现<br>
 	建立6个表。4个实体分别对应一个实体表，如：order_table，goods，supplier，class，emp。而商品和订单由于n：n关系，可以抽离一个关系表，即order_detail。还设立了一个class商品分类表。<br>
 Class：<br>
- <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/class.png)<br>
 Emp：<br>
- <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/emp.png)<br>
 Goods：<br>
-<br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/goods.png)<br>
  <br>
 Order_detail:<br>
- <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/order2.png)<br>
 Order_table:<br>
-  <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/order1.png)<br>
 Supplier：<br>
- <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/supplier.png)<br>
 数据库后台连接代码：数据库连接将其抽象形成一个类，使代码优化，每一次操作调用该类实现连接。<br>
  <br>
 7．应用系统设计实现<br>
