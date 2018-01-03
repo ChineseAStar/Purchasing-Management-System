@@ -52,24 +52,23 @@ Supplier：<br>
 	对于职员和供应商的管理，实现四种基本操作。对于订单管理，实现基本操作外，增加自动生成订单编号的设置，以及多条商品自动分类生成订单。对于商品管理，除基本操作和自动生成编码外，设定分类，并按分类生成订单。<br>
 实际界面如下：<br>
 登录界面：更具账号密码进行登录。<br>
- <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/v1.png)<br>
 欢迎界面：登陆后首先进入的页面，然后可以选择相应的操作模块。<br>
- <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/v2.png)<br>
 列表界面（订单管理为例）：进入后可以进行增删改查的基本操作。<br>
- <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/v3.png)<br>
 订单生成控制界面：拥有手动生成和自动生成两种。手动生成是选择供应商后进入订单修改界面，并自动生成订单号。自动生成将完全自动生成完毕，将所有选择的商品按照供应商分类，生成订单。<br>
- <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/v4.png)<br>
 订单修改界面：订单修改可以实现对于商品条目的增、删查看和对数量的修改。<br>
- <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/v5.png)<br>
 商品分类的简单管理界面：拥有对于商品分类的删除和增加功能。分类分为大类，中类和小类。凡类下有子类的不可删除。<br>
- <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/v6.png)<br>
 订单审核界面：在这里实现的代码审核，选择审核结果，和填写审核界面，后台将自动获取审核时间和审核人信息。<br>
- <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/v7.png)<br>
 权限不足的限制界面：经理和采购员存在功能限制，凡是试图进入无权限的模块，将自动跳转到该界面。<br>
- <br>
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/v8.png)<br>
 密码修改：每个人都可以对自己的密码进行修改。<br>
-
-
+ ![image](https://github.com/ChineseAStar/Purchasing-Management-System/blob/master/images/v9.png)<br>
 
 
 
