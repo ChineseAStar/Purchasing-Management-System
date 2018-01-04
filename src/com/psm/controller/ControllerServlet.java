@@ -1,6 +1,8 @@
 package com.psm.controller;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -55,7 +57,8 @@ public class ControllerServlet extends HttpServlet {
 		String uri = request.getRequestURI();
 		/**
 		 * 完整的uri应该是：/app/product_input 但事件中有默认的应用程序名，所以应用名可以为空:/product_input
-		 */
+		 */	
+		
 
 		int lastIndex = uri.lastIndexOf("/");
 		String action = uri.substring(lastIndex + 1);
