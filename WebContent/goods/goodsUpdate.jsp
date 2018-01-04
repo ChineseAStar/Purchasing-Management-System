@@ -22,6 +22,9 @@
 			$("form").submit();
 		});
 	});
+	function cop(){
+		document.location.href="Goods.do?pageInidex=1";
+	}
 </script>
 </head>
 
@@ -123,7 +126,7 @@
 					<!--<a href="#">保存</a>-->
 					<!--<a href="providerList.html">返回</a>-->
 					<input type="button" value="保存"  /> <input type="button"
-						value="返回" onclick="history.back(-1)" />
+						value="返回" onclick="cop()" />
 				</div>
 			</form>
 		</div>

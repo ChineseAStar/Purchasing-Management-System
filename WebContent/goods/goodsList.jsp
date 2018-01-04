@@ -60,7 +60,7 @@
 			<li><a href="Suppliers.do?pageIndex=1">供应商管理</a></li>
 			<li id="active"><a href="Goods.do?pageIndex=1">商品管理</a></li>
 			<li><a href="Users.do?pageIndex=1">用户管理</a></li>
-			<li><a href=emp/password.jsp">密码修改</a></li>
+			<li><a href="emp/password.jsp">密码修改</a></li>
 			<li><a href="loginOut.do">退出系统</a>	</li>
 		</ul>
 		</nav>
@@ -70,8 +70,10 @@
 			<strong>你现在所在的位置是:</strong> <span>商品管理页面</span>
 		</div>
 		<div class="search">
-			<span>商品名称：</span> <input type="text" placeholder="请输商品的名称" /> <input
-				type="button" value="查询" /> <a href="Goods.do?action=addView">添加商品</a>
+			<span>商品名称：</span> <input type="text" placeholder="请输商品的名称" />
+			<input type="button" value="查询" />
+			<a href="Goods.do?action=addView">添加商品</a>
+			<a href="Goods.do?action=classManage&num=0">类别管理</a>
 		</div>
 		<!--商品操作表格-->
 		<table class="providerTable" cellpadding="0" cellspacing="0">

@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="js/checkform.js"></script>
 <script type="text/javascript">
 	$(function() {
-		$("[value=保存]").click(function() {
+		$("[value=下一步]").click(function() {
 		if(checkinput()){
 			$("form").submit();
 			}
@@ -76,68 +76,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <!--div的class 为error是验证错误，ok是验证成功-->
                 <div class="">
                     <label for="providerId">商品编号：</label>
-                    <input type="text" name="id" id="providerId"/>
-                    <span>*请输商品编号</span>
+                    <select name="id">
+	                    <c:forEach var="clas" items="${classList}">
+		                    <c:if test="${clas.xiaoid!=null}">
+		                    	<option  value="${clas.daid}${clas.zhongid}${clas.xiaoid}">${clas.name}</option>
+		                    </c:if>
+	                    </c:forEach>
+                    </select>
                 </div>
                 <div>
                     <label for="providerName">商品名称：</label>
-                    <input type="text" name="name" id="providerName"/>
+                    <input type="text" name="productName" id="providerName"/>
                     <span >*请输入商品名称</span>
-                </div>
-                <div>
-                    <label for="spec">单位：</label>
-                    <input type="text" name="spec" id="spec"/>
-                    <span>*请输入单位</span>
-                </div>
-                <div>
-                    <label for="model">型号：</label>
-                    <input type="text" name="model" id="model"/>
-                    <span>*请输入型号</span>
-                </div>
-                <div>
-                    <label for="size">尺寸：</label>
-                    <input type="text" name="size" id="size"/>
-                    <span>*请输入尺寸</span>
                 </div>
                 <div>
                     <label for="sid">供应商编号：</label>
                     <select name="sid">
-                    <c:forEach var="sid" items="${sidList}">
-                    <c:if test="${sid!=''}">
-                    <option  value="${sid}">${sid}</option>
-                    </c:if>
-                    </c:forEach>
+	                    <c:forEach var="sid" items="${sidList}">
+		                    <c:if test="${sid!=''}">
+		                    	<option  value="${sid}">${sid}</option>
+		                    </c:if>
+	                    </c:forEach>
                     </select>
                     <span></span>
                 </div>
-                <div>
-                    <label for="price">进价：</label>
-                    <input type="text" name="price" id="price"/>
-                    <span>*请输进价</span>
-
-                </div>
-                <div>
-                    <label for="saleprice">售价：</label>
-                    <input type="text" name="saleprice" id="saleprice"/>
-                    <span>*请输售价</span>
-
-                </div>
-                <div>
-                    <label for="vipprice">VIP价：</label>
-                    <input type="text" name="vipprice" id="saleprice"/>
-                    <span>*请输VIP价</span>
-
-                </div>
-                <div>
-                    <label for="num">库存：</label>
-                    <input type="text" name="num" id="num"/>
-                    <span></span>
-                </div>
-               
                 <div class="providerAddBtn">
-                    <input type="button" value="保存" "/>
-                    <input type="button" value="返回" onclick="history.back(-1)"/>
-                </div>
+					<!--<a href="#">保存</a>-->
+					<!--<a href="providerList.html">返回</a>-->
+					<input type="button" value="下一步"  /> <input type="button"
+						value="返回" onclick="cop()" />
+				</div>
             </form>
         </div>
 
