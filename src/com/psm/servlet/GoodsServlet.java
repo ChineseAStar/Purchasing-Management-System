@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.psm.common.Page;
 import com.psm.dao.GoodsDao;
 import com.psm.dao.imp.GoodsDaoImp;
+import com.psm.model.Gclass;
 import com.psm.model.Goods;
 import com.psm.model.GoodsView;
 
@@ -114,38 +115,20 @@ public class GoodsServlet extends HttpServlet {
 			request.getRequestDispatcher("../goods/goodsList.jsp")
 					.forward(request, response);
 		} else if (action.equals("add")) {
-			// 获得请求参数
 			String id = request.getParameter("id");
-			String name = request.getParameter("name");
-			float price = Float.parseFloat(request.getParameter("price"));
-			float saleprice = Float.parseFloat(request.getParameter("saleprice"));
-			float vipprice = Float.parseFloat(request.getParameter("vipprice"));
-			String spec = request.getParameter("spec");
+			String name = request.getParameter("productName");
 			String sid = request.getParameter("sid");
-			float num = Float.parseFloat(request.getParameter("num"));
-			String model = request.getParameter("model");
-			String size = request.getParameter("size");
-			// 封装成对象
-			Goods good = new Goods(id, name, spec, model, size, sid, price, saleprice, vipprice, num);
-			// 实例化业务对象
-			GoodsDao goodBiz = new GoodsDaoImp();
-			// 调用方法
-			int count = goodBiz.add(good);
+			GoodsDao goodsDao = new GoodsDaoImp();
+			id = goodsDao.findgid(id);
+			int count = goodsDao.add(id,name,sid);
 			if (count > 0) {
-				// 4.一定要重定向，否则会陷入死循环，因为action参数还保留着所以还是会走这里或者直接指定一个jsp
-				response.sendRedirect("Goods.do");
-
+				response.sendRedirect("Goods.do?action=update&id="+id);
 			}
 		} else if (action.equals("details")) {
-			// 获得请求 参数
 			String id = request.getParameter("id");
-			// 1.实例化业务对象
 			GoodsDao goodBiz = new GoodsDaoImp();
-			// 2.调用方法
 			Goods good = goodBiz.findById(id);
-			// 3.将对象保存在请求作用域
 			request.setAttribute("good", good);
-			// 4.转发到视图
 			request.getRequestDispatcher("../goods/goodsView.jsp")
 					.forward(request, response);
 		} else if (action.equals("update")) {
@@ -204,13 +187,11 @@ public class GoodsServlet extends HttpServlet {
 				response.sendRedirect("Goods.do");
 			}
 		} else if (action.equals("addView")) {
-			// 1.实例化业务对象
 			GoodsDao goodsDao = new GoodsDaoImp();
-			// 2.调用方法
+			List<Gclass> classList = goodsDao.clist();
 			List<String> sidList = goodsDao.findSid();
-			// 3.将对象保存在请求作用域
 			request.setAttribute("sidList", sidList);
-			// 4.转发到视图
+			request.setAttribute("classList", classList);
 			request.getRequestDispatcher("../goods/goodsAdd.jsp").forward(
 					request, response);
 		}else if(action.equals("search")){
@@ -223,9 +204,69 @@ public class GoodsServlet extends HttpServlet {
 			request.setAttribute("goodsList", list);
 
 			request.getRequestDispatcher("../goods/goodsList.jsp")
-					.forward(request, response);
-			
-			
+					.forward(request, response);			
+		}else if(action.equals("classManage")){
+			GoodsDao goodsDao = new GoodsDaoImp();
+			List<Gclass> list = goodsDao.clist();
+			request.setAttribute("classList", list);
+			int num = Integer.parseInt(request.getParameter("num"));
+			if(num==1) {
+				request.setAttribute("errmsg", "添加失败，请检查后再添加！");
+			}else if(num==2) {
+				request.setAttribute("errmsg", "删除失败,尚有子类！");
+			}
+
+			request.getRequestDispatcher("../goods/goodsclass.jsp")
+					.forward(request, response);			
+		}else if(action.equals("addClass")){
+			String daid = request.getParameter("dalei");
+			String zhongid = request.getParameter("zhonglei");
+			String xiaoid = request.getParameter("xiaolei");
+			String name = request.getParameter("leiname");
+			GoodsDao goodsDao = new GoodsDaoImp();
+			int count = 0;
+			int type = 1;
+			int num = 0;
+			if(goodsDao.findClass(daid, zhongid, xiaoid)==0 || daid == "" || name == "") {
+				num=1;
+				response.sendRedirect("Goods.do?action=classManage&num="+num);
+				return;
+			}
+			if(zhongid != "")
+			{
+				type = 2;
+				if(xiaoid != "") {
+					type = 3;
+					count = goodsDao.addClass(daid, zhongid, xiaoid, name, type);
+				}else {
+					count = goodsDao.addClass(daid, zhongid, null, name, type);
+				}
+			}else {
+				if(xiaoid != "")
+				{
+					num=1;
+					response.sendRedirect("Goods.do?action=classManage&num="+num);
+					return;
+				}else {
+					count = goodsDao.addClass(daid, null, null, name, type);
+				}
+			}
+			if(count < 1) num = 1; 
+			response.sendRedirect("Goods.do?action=classManage&num="+num);		
+		}else if(action.equals("removeClass")){
+			int num = 0;
+			String daid = request.getParameter("dalei");
+			String zhongid = request.getParameter("zhonglei");
+			String xiaoid = request.getParameter("xiaolei");
+			GoodsDao goodsDao = new GoodsDaoImp();
+			if(goodsDao.checkdel(daid, zhongid, xiaoid)==1) {
+				num = 2;
+				response.sendRedirect("Goods.do?action=classManage&num="+num);	
+			}else {
+			int count = goodsDao.delClass(daid, zhongid, xiaoid);
+				if(count<1) num = 2;
+				response.sendRedirect("Goods.do?action=classManage&num="+num);
+			}
 		}
 	}
 }

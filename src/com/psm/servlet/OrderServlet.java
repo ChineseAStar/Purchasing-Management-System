@@ -16,8 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.json.JSONArray;
-
 import com.psm.common.Page;
 import com.psm.dao.GoodsDao;
 import com.psm.dao.OrdersDao;
@@ -32,7 +30,6 @@ import com.psm.model.GoodsView;
 import com.psm.model.Order;
 import com.psm.model.OrderDetail;
 import com.psm.model.OrderView;
-import com.psm.model.Supplier;
 import com.psm.model.SupplierMini;
 
 public class OrderServlet extends HttpServlet {
@@ -161,7 +158,7 @@ public class OrderServlet extends HttpServlet {
 			}
 			String eid = request.getParameter("eid");
 			String sid = request.getParameter("sid");
-			String oid = ""+(ordertime.getMonth()+1)+ordertime.getDate()+sid;
+			String oid = ""+changedate(ordertime.getMonth()+1,ordertime.getDate())+sid;
 			oid = ordersDao.findoid(oid);
 			Order order = new Order();
 			order.setEid(eid);
@@ -199,7 +196,7 @@ public class OrderServlet extends HttpServlet {
 			}
 			for(String sid:sidList)
 			{
-				String oid = ""+(ordertime.getMonth()+1)+ordertime.getDate()+sid;
+				String oid = ""+changedate(ordertime.getMonth()+1,ordertime.getDate())+sid;
 				oid = ordersDao.findoid(oid);
 				Order order = new Order();
 				order.setEid(eid);
@@ -273,39 +270,6 @@ public class OrderServlet extends HttpServlet {
 			if (count > 0) {
 				response.sendRedirect("Orders.do");
 			}
-//		} else if (action.equals("supplierajax")) {
-//			request.setCharacterEncoding("utf-8");
-//
-//			OrdersDao ordersDao = new OrdersDaoImp();
-//
-//			String gname = request.getParameter("gname");
-//			List<Supplier> list = ordersDao.findSupByGname(gname);
-//			// 将list封装成json数组
-//			JSONArray jsonArray = JSONArray.fromObject(list);
-//			// 处理中文乱码
-//			response.setHeader("content-type", "text/html;charset=UTF-8");
-//			PrintWriter printWriter = response.getWriter();
-//			printWriter.println(jsonArray);
-//
-//		} else if (action.equals("goodajax")) {
-//			request.setCharacterEncoding("utf-8");
-//
-//			OrdersDao biz = new OrdersDaoImp();
-//
-//			String gname = request.getParameter("gname");
-//			String sid = request.getParameter("sid");
-//			// 根据商品名称和供应商sid找到gid
-//			int gid = biz.findGid(gname, sid);
-//			GoodsDao goodBiz = new GoodsDaoImp();
-//			// 根据id找到商品信息
-//			Goods good = goodBiz.findById(gid);
-//			// 将list封装成json数组
-//			JSONArray jsonArray = JSONArray.fromObject(good);
-//			// 处理中文乱码
-//			response.setHeader("content-type", "text/html;charset=UTF-8");
-//			PrintWriter printWriter = response.getWriter();
-//			printWriter.println(jsonArray);
-
 		} else if (action.equals("search")) {
 			String sname = request.getParameter("sname");
 			String opaid = request.getParameter("opaid");
@@ -405,5 +369,19 @@ public class OrderServlet extends HttpServlet {
 					request, response);
 			
 		}
+	}
+	private String changedate(int month,int day) {
+		String rtn = "";
+		if(month<10) {
+			rtn += "0"+month;
+		}else {
+			rtn += month;
+		}
+		if(day<10) {
+			rtn += "0"+day;
+		}else {
+			rtn += day;
+		}
+		return rtn;
 	}
 }
