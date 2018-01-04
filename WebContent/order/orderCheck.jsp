@@ -31,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		var cid = "${sessionScope.id}";
 		var cname = "${sessionScope.name}";
 		checktime = year +"-"+totwo(mon)+"-"+totwo(day)+' '+totwo(h)+":"+totwo(m)+":"+totwo(s)+"."+ms;
-		document.location.href = 'Orders.do?action=check&id='+${order.id} + '&checkresult=' + checkresult + '&checksuggest=' 
+		document.location.href = 'Orders.do?action=check&id=${order.id}&checkresult=' + checkresult + '&checksuggest=' 
 				+ checksuggest + '&checktime=' + checktime + '&cid=' + cid + '&cname=' + cname;
 	}
 </script>
@@ -133,7 +133,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <label>审核结果：</label>
 				<select id="checkresult" name="checkresult">
 					<option value="未审核">--未审核--</option>
-					<option value="不通过">不通过</option>
+					<option value="未通过">未通过</option>
 					<option value="已通过">已通过</option>
 				</select>
 		        <p>审核意见：</p>

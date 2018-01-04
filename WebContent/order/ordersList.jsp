@@ -29,11 +29,9 @@
 	
 		$("[value=查询]").click(
 				function() {
-					var txt = $("[value=查询]").prevAll("input").val();
 					var sname = $("[name=tigong]").val();
 					var opaid = $("[name=fukuan]").val();
-					document.location.href = 'Orders.do?action=search&gname='
-							+ txt + '&sname=' + sname + '&opaid=' + opaid;
+					document.location.href = 'Orders.do?action=search&&sname=' + sname + '&opaid=' + opaid;
 		});
 	
 	});
@@ -122,7 +120,7 @@
 									<img src="img/read.png" alt="查看" title="查看" /> 
 								</a> 
 								<c:set var="bl" value="${order.checkresult}" scope="request"/>
-								<% if("未审核".equals(request.getAttribute("bl"))){ %>
+								<% if("未审核".equals(request.getAttribute("bl")) || "未通过".equals(request.getAttribute("bl"))){ %>
 								<a href="Orders.do?action=update&id=${order.id}">
 									<img src="img/xiugai.png" alt="修改" title="修改" /> 
 								</a> 
