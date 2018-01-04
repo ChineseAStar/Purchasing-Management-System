@@ -85,7 +85,7 @@ public class OrdersDaoImp implements OrdersDao {
 		String sql = " select top "+max
 				+" id,ordertime,sname,cost,checkresult "
 				+ "from order_view where id not in(select top "+min
-				+" id from order_view order by id)";
+				+" id from order_view order by id) order by checkresult";
 		conn = ConnectionFactory.getConnection();
 		try {
 			stmt = conn.prepareStatement(sql);
@@ -169,7 +169,7 @@ public class OrdersDaoImp implements OrdersDao {
 	public List<OrderView> search( String sname, String checkresult) {
 		List<OrderView> lists = new ArrayList<OrderView>();
 		String sql = "select id,ordertime,sname,cost,checkresult "
-				+ "from order_view where sname like ? and checkresult like ? ";
+				+ "from order_view where sname like ? and checkresult like ? order by checkresult,id";
 		conn = ConnectionFactory.getConnection();
 		try {
 			stmt = conn.prepareStatement(sql);
@@ -324,24 +324,27 @@ public class OrdersDaoImp implements OrdersDao {
 	}
 	
 	@Override
-	public String findoid(String oid) {
+	public String findoid(String oid1) {
 		String sql = "select id from order_table where id like ? order by id";
 		conn = ConnectionFactory.getConnection();
+		String oid2 = "01";
+		String oid3 = oid1+oid2;
 		try {
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, oid+"%");
+			stmt.setString(1, oid1+"%");
 			rs = stmt.executeQuery();
-			oid = oid+"01";
-			while(rs.next() && oid.equals(rs.getString(1)))
+			while(rs.next() && oid3.equals(rs.getString(1)))
 			{
-				oid = Integer.parseInt(oid)+1+"";
+				oid2 = Integer.parseInt("1"+oid2)+1+"";
+				oid2 = oid2.substring(1, oid2.length());
+				oid3 = oid1 + oid2;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			ResourceClose.close(rs, stmt, conn);
 		}
-		return oid;
+		return oid3;
 	}
 
 	@Override
@@ -413,5 +416,4 @@ public class OrdersDaoImp implements OrdersDao {
 		}
 		return count;
 	}
-	
 }

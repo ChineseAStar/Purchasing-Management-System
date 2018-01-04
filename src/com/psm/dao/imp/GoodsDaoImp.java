@@ -11,6 +11,7 @@ import com.psm.common.ConnectionFactory;
 import com.psm.common.Page;
 import com.psm.common.ResourceClose;
 import com.psm.dao.GoodsDao;
+import com.psm.model.Gclass;
 import com.psm.model.Goods;
 import com.psm.model.GoodsMini;
 import com.psm.model.GoodsView;
@@ -161,22 +162,15 @@ public class GoodsDaoImp implements GoodsDao{
 	}
 
 	@Override
-	public int add(Goods good) {
+	public int add(String id,String name,String sid) {
 		int count = 0;
-		String sql = "insert into goods values(?,?,?,?,?,?,?,?,?,?)";
+		String sql = "insert into goods(id,name,sid) values(?,?,?)";
 		conn = ConnectionFactory.getConnection();
 		try {
 			stmt = conn.prepareStatement(sql);
-			stmt.setString(1, good.getId());
-			stmt.setString(2, good.getName());
-			stmt.setString(3, good.getSpec());
-			stmt.setString(4, good.getModel());
-			stmt.setString(5, good.getSize());
-			stmt.setString(6, good.getSid());
-			stmt.setFloat(7, good.getPrice());
-			stmt.setFloat(8, good.getSaleprice());
-			stmt.setFloat(9, good.getVipprice());
-			stmt.setFloat(10, good.getNum());
+			stmt.setString(1, id);
+			stmt.setString(2, name);
+			stmt.setString(3, sid);
 			count = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -253,13 +247,183 @@ public class GoodsDaoImp implements GoodsDao{
 				list.add(goods);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
 			ResourceClose.close(rs, stmt, conn);
 		}
 		
 		return list;
+	}
+
+	@Override
+	public List<Gclass> clist() {
+		List<Gclass> clist = new ArrayList<Gclass>();
+		String sql = "select daid,zhongid,xiaoid,name,type from class order by daid,zhongid,xiaoid";
+		conn = ConnectionFactory.getConnection();
+		try {
+			stmt = conn.prepareStatement(sql);
+			rs = stmt.executeQuery();
+			while(rs.next())
+			{
+				Gclass clas = new Gclass();
+				clas.setDaid(rs.getString(1));
+				clas.setZhongid(rs.getString(2));
+				clas.setXiaoid(rs.getString(3));
+				clas.setName(rs.getString(4));
+				clas.setType(Integer.parseInt(rs.getString(5)));
+				clist.add(clas);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			ResourceClose.close(rs, stmt, conn);
+		}
+		return clist;
+	}
+
+	@Override
+	public int addClass(String daid, String zhongid, String xiaoid, String name, int type) {
+		int count = 0;
+		String sql = "insert into class(daid,zhongid,xiaoid,name,type) values(?,?,?,?,?)";
+		conn = ConnectionFactory.getConnection();
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, daid);
+			stmt.setString(2, zhongid);
+			stmt.setString(3, xiaoid);
+			stmt.setString(4, name);
+			stmt.setInt(5, type);
+			count = stmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			ResourceClose.close(rs, stmt, conn);
+		}
+		return count;
+	}
+
+	@Override
+	public int delClass(String daid, String zhongid, String xiaoid) {
+		int count = 0;
+		conn = ConnectionFactory.getConnection();
+		String sql = "";
+		if(zhongid != "")
+		{
+			if(xiaoid != "") {
+				sql = "delete from class where daid=? and zhongid=? and xiaoid=?";
+			}else {
+				sql = "delete from class where daid=? and zhongid=? and xiaoid is null";
+			}
+		}else {
+			sql = "delete from class where daid=? and zhongid is null and xiaoid is null";
+		}
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, daid);
+			if(zhongid != "")
+			{
+				stmt.setString(2, zhongid);
+				if(xiaoid != "") {
+					stmt.setString(3, xiaoid);
+				}
+			}
+			count = stmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			ResourceClose.close(rs, stmt, conn);
+		}
+		return count;
+	}
+
+	@Override
+	public int findClass(String daid, String zhongid, String xiaoid) {
+		int count = 1;
+		conn = ConnectionFactory.getConnection();
+		String sql = "";
+		if(zhongid != "")
+		{
+			if(xiaoid != "") {
+				sql = "select * from class where daid=? and zhongid=? and xiaoid=?";
+			}else {
+				sql = "select * from class where daid=? and zhongid=? and xiaoid is null";
+			}
+		}else {
+			sql = "select * from class where daid=? and zhongid is null and xiaoid is null";
+		}
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, daid);
+			if(zhongid != "")
+			{
+				stmt.setString(2, zhongid);
+				if(xiaoid != "") {
+					stmt.setString(3, xiaoid);
+				}
+			}
+			rs = stmt.executeQuery();
+			while(rs.next())
+			{
+				count = 0;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			ResourceClose.close(rs, stmt, conn);
+		}
+		return count;
+	}
+
+	@Override
+	public String findgid(String gid1) {
+		String sql = "select id from goods where id like ? order by id";
+		conn = ConnectionFactory.getConnection();
+		String gid2 = "001";
+		String gid3 = gid1+gid2;
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, gid1+"%");
+			rs = stmt.executeQuery();
+			while(rs.next() && gid3.equals(rs.getString(1)))
+			{
+				gid2 = Integer.parseInt("1"+gid2)+1+"";
+				gid2 = gid2.substring(1, gid2.length());
+				gid3 = gid1+gid2;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ResourceClose.close(rs, stmt, conn);
+		}
+		return gid3;
+	}
+	public int checkdel(String daid, String zhongid, String xiaoid) {
+		int count = 0;
+		String sql = "";
+		String content = "";
+		if(xiaoid!="") {
+			sql = "select * from goods where id like ?";
+			content = daid+zhongid+xiaoid+"%";
+		}else if(zhongid != ""){
+			sql = "select * from class where daid=? and zhongid=? and xiaoid is not null";
+			content = daid;
+		}else {
+			sql = "select * from class where daid=? and zhongid is not null";
+			content = daid;
+		}
+		conn = ConnectionFactory.getConnection();
+		try {
+			stmt = conn.prepareStatement(sql);
+			stmt.setString(1, content);
+			if(zhongid != "" && xiaoid == "") stmt.setString(2, zhongid);
+			rs = stmt.executeQuery();
+			while(rs.next()) count = 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			ResourceClose.close(rs, stmt, conn);
+		}
+		return count;
 	}
 }
 

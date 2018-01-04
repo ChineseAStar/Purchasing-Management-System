@@ -61,7 +61,6 @@ public class EmpsDaoImp implements EmpsDao{
 			stm.setString(3, param[2]);
 			count = stm.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			ResourceClose.close(rs, stm, conn);
@@ -79,7 +78,6 @@ public class EmpsDaoImp implements EmpsDao{
 			stm.setString(1, id);
 			count = stm.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			ResourceClose.close(rs, stm, conn);
@@ -104,7 +102,6 @@ public class EmpsDaoImp implements EmpsDao{
 			stm.setString(8, emp.getPhone());
 			count = stm.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			ResourceClose.close(rs, stm, conn);
@@ -128,7 +125,6 @@ public class EmpsDaoImp implements EmpsDao{
 			stm.setString(7, emp.getId());
 			count = stm.executeUpdate();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			ResourceClose.close(rs, stm, conn);
@@ -266,5 +262,5 @@ public class EmpsDaoImp implements EmpsDao{
 		}
 
 		return lists;
-	}
+	}	
 }
