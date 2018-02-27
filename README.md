@@ -21,7 +21,7 @@
 系统：Winidows10<br>
 服务器：Tomcat9.0<br>
 数据库：SQL Server 2008 R2<br>
-开发环境：Eclipse<br>
+开发环境：Eclipse Java1.8<br>
 3．需求分析： <br>
 	 <br>
 	职员、供应商和商品的基本管理，以及订单管理。以订单为关系将供应商、商品和职员联系起来。上图为ER图，并将字段放入概念设计中。<br>
